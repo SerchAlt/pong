@@ -1,0 +1,90 @@
+import turtle
+
+# Configuración de la ventana
+win = turtle.Screen()
+win.title("Pong")
+win.bgcolor("black")
+win.setup(width=600, height=400)
+
+# Raqueta izquierda
+raqueta_izquierda = turtle.Turtle()
+raqueta_izquierda.speed(0)
+raqueta_izquierda.shape("square")
+raqueta_izquierda.color("white")
+raqueta_izquierda.shapesize(stretch_wid=5, stretch_len=1)
+raqueta_izquierda.penup()
+raqueta_izquierda.goto(-250, 0)
+
+# Raqueta derecha
+raqueta_derecha = turtle.Turtle()
+raqueta_derecha.speed(0)
+raqueta_derecha.shape("square")
+raqueta_derecha.color("white")
+raqueta_derecha.shapesize(stretch_wid=5, stretch_len=1)
+raqueta_derecha.penup()
+raqueta_derecha.goto(250, 0)
+
+# Pelota
+pelota = turtle.Turtle()
+pelota.speed(40)
+pelota.shape("circle")
+pelota.color("white")
+pelota.penup()
+pelota.goto(0, 0)
+pelota.dx = 2
+pelota.dy = 2
+
+# Puntuación
+puntuacion_izquierda = 0
+puntuacion_derecha = 0
+
+puntuacion = turtle.Turtle()
+puntuacion.speed(0)
+puntuacion.color("white")
+puntuacion.penup()
+puntuacion.hideturtle()
+puntuacion.goto(0, 170)
+puntuacion.write("Jugador 1: 0    Jugador 2: 0", align="center", font=("Courier", 14, "normal"))
+
+# Funciones para mover las raquetas
+def raqueta_izquierda_arriba():
+    y = raqueta_izquierda.ycor()
+    y += 20
+    raqueta_izquierda.sety(y)
+
+def raqueta_izquierda_abajo():
+    y = raqueta_izquierda.ycor()
+    y -= 20
+    raqueta_izquierda.sety(y)
+
+def raqueta_derecha_arriba():
+    y = raqueta_derecha.ycor()
+    y += 20
+    raqueta_derecha.sety(y)
+
+def raqueta_derecha_abajo():
+    y = raqueta_derecha.ycor()
+    y -= 20
+    raqueta_derecha.sety(y)
+
+# Eventos del teclado para mover las raquetas
+win.listen()
+win.onkeypress(raqueta_izquierda_arriba, "w")
+win.onkeypress(raqueta_izquierda_abajo, "s")
+win.onkeypress(raqueta_derecha_arriba, "Up")
+win.onkeypress(raqueta_derecha_abajo, "Down")
+
+# Ciclo principal del juego
+while True:
+    win.update()
+
+    # Mover la pelota
+    pelota.setx(pelota.xcor() + pelota.dx)
+    pelota.sety(pelota.ycor() + pelota.dy)
+
+    # Rebote en la parte superior e inferior
+    if pelota.ycor() > 190 or pelota.ycor() < -190:
+        pelota.dy *= -1
+
+    # Rebote en las raquetas
+    if (pelota.xcor() > 240 and pelota.x
